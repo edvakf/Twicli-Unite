@@ -1,3 +1,4 @@
+
 /* http://www.json.org/json2.js compressed by JSMin */
 if(!this.JSON){this.JSON={};}
 (function(){function f(n){return n<10?'0'+n:n;}
@@ -27,10 +28,6 @@ cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return'\\u'+
 ('0000'+a.charCodeAt(0).toString(16)).slice(-4);});}
 if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,''))){j=eval('('+text+')');return typeof reviver==='function'?walk({'':j},''):j;}
 throw new SyntaxError('JSON.parse');};}}());
-
-
-var webserver;
-
 
 /* Tweets class (timeline cache) */
 function Tweets(){
@@ -64,16 +61,14 @@ Tweets.prototype = {
 }
 var tweets = new Tweets();
 
+var webserver;
 window.onload = function () {
-
-    webserver = opera.io.webserver
-
-    if (webserver)
-    {
-        webserver.addEventListener('getcache', get_cache, false);
-        webserver.addEventListener('setcache', set_cache, false);
-        webserver.addEventListener('nr_favs.js', favs, false);
-    }
+  webserver = opera.io.webserver
+  if (webserver){
+    webserver.addEventListener('getcache', get_cache, false);
+    webserver.addEventListener('setcache', set_cache, false);
+//    webserver.addEventListener('nr_favs.js', favs, false);
+  }
 }
 
 function get_cache(e){
@@ -92,7 +87,10 @@ function set_cache(e){
   response.close();
 }
 
+
+/*
 function favs(e){
+  opera.postError('nr_favs.js');
   var response = e.connection.response;
   response.setStatusCode(200);
   response.setResponseHeader( 'Content-Type', 'text/javascript' );
@@ -100,27 +98,30 @@ function favs(e){
 
   var fav_url = "http://favotter.matope.com/home.php?page="
   
-  var total_pages = 2;
+  var total_pages = 10;
   var count = 0;
 
-  for (var i=1;i<10;i++) (function(i){
-    var id = 0;
-    var url = fav_url + i;
+  for (var i=1;i<10;i++) (function(j){
+    var url = fav_url + j;
     var xhr = new XMLHttpRequest;
     xhr.open('GET', url, true);
+    opera.postError('requesting : '+url)
     xhr.onreadystatechange = function(){
       if (xhr.readyState == 4) {
-        if (xhr.status == 200) { //posted at <a class="taggedlink" rel="bookmark" href="status.php?id=3469537352"><abbr class="updated" title="2009-08-22T18:38:00+0900" />2009-08-22 18:38:00</abbr></a><span class="favotters"> 2 favs by
+        if (xhr.status == 200) {
           xhr.responseText.replace(
-            /posted at <a[^>]*?href="status.php\?id=(\d+)"[^>]*?><abbr[^>]*?>[^<]*?</abbr></a><span[^>]*?> (\d+) favs by/g, 
-            function(match, $1, $2){response.write('"'+$1+'":'+$2+',');}
+            /posted at <a[^>]*?href="status.php\?id=(\d+)"[^>]*?><abbr[^>]*?>[^<]*?<\/abbr><\/a><span[^>]*?> (\d+) favs by/g, 
+            function(match, $1, $2){opera.postError($1+''+$2);response.write('"'+$1+'":'+$2+',');}
           );
         }
         if (++count === total_pages) {
           response.write('});\n');
           response.close()
         }
+        opera.postError('received : '+count);
       }
-    }
-  }
+    };
+  })(i);
 }
+
+*/
