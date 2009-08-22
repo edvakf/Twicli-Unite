@@ -1,0 +1,16 @@
+Twicli <http://www.geocities.jp/twicli/twicli.html> is a browser based twitter
+client that was originally developed by NeoCat <http://twitter.com/NeoCat>.
+
+I, edvakf <http://my.opera.com/edvakf/blog/>, ported it to Opera Unite.
+The main part of twicli is almost not modified at all.
+What I did was to make a twicli plugin, operaunite.js, and the server side
+caching mechanizm.
+
+This is not a fork of the original Twicli, so when the original is updated,
+all you need to do to be up-to-date is to download the files, then remove all
+the "geocities" related part of the source.
+
+Changelog:
+
+- 2009-08-21
+  - wrote operaunite.js, 
