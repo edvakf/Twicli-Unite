@@ -1,11 +1,30 @@
 <widget>
-  <widgetname>Unite Twicli</widgetname>
+
+  <widgetname>twicli unite</widgetname>
+
   <description>Browser based twitter client, ported to Opera Unite</description>
+
+  <icon width='48' height='48' >public_html/icon.png</icon>
+  <icon width='32' height='32' >public_html/icon.32x32.png</icon>
+	<icon width='16' height='16' >public_html/icon.16x16.png</icon>
+
   <author>
     <name>edvakf</name>
+    <link>http://my.opera.com/edvakf/blog/</link>
   </author>
+
   <feature name="http://xmlns.opera.com/webserver">
     <param name="type" value="service"/>
     <param name="servicepath" value="twicli"/>
   </feature>
+
+  <security>
+    <access>
+      <protocol>http</protocol>
+      <host>favotter.matope.com</host>
+      <port>80</port>
+      <path>home.php</path>
+    </access>
+  </security>
+
 </widget>

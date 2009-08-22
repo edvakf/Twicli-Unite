@@ -107,6 +107,8 @@ function favs(e){
     xhr.open('GET', url, true);
     opera.postError('requesting : '+url)
     xhr.onreadystatechange = function(){
+      opera.postError('readyState : '+xhr.readyState);
+
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           xhr.responseText.replace(
@@ -123,5 +125,4 @@ function favs(e){
     };
   })(i);
 }
-
 */
