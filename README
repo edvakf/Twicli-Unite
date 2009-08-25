@@ -13,24 +13,13 @@ repository <http://coderepos.org/share/browser/websites/twicli/> and put
 them into the "public_html" directory.
 
 
-=== Diff between the original twicli and twicli Unite ===
-
-% diff -u twicli_orig.html twicli.html
---- twicli_orig.html	2009-07-28 15:19:37.000000000 -0400
-+++ twicli.html	2009-08-22 03:56:23.000000000 -0400
-@@ -279,7 +279,7 @@
- var twitterURL = 'http://twitter.com/';
- var cookieVer = parseInt(readCookie('ver')) || 0;
- var updateInterval = (cookieVer>3) && parseInt(readCookie('update_interval')) || 60;
--var pluginstr = (cookieVer>5) && readCookie('tw_plugins') || ' regexp.js\noutputz.js\nsearch.js\nsearch2.js\nfavotter.js\nfollowers.js';
-+var pluginstr = (cookieVer>5) && readCookie('tw_plugins') || ' operaunite.js\nregexp.js\nsearch.js\nfollowers.js';
- pluginstr = pluginstr.substr(1);
- var nr_limit = parseInt(readCookie('limit')) || 500;				// 表示する発言数の上限
- var max_count = (cookieVer>3) && parseInt(readCookie('max_count')) || 50;
-
 === Changelog ===
 
 - 2009-08-21
   - wrote operaunite.js, twicliunite.js
   - made git repository http://github.com/edvakf/Twicli-Unite/tree/master
-
+- 2009-08-25
+  - renamed opearunite.js to unite_cache.js
+  - added sound.js and twicli_s.html to follow the original twicli
+  - made unite_longer_url.js
+  - slightly changed favotter.js and renamed it to unite_favotter.js

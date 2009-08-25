@@ -79,16 +79,6 @@ function go(d) {
 <img alt="usage" src="usage4.png" width="1" height="1">
 <img alt="usage" src="usage5.png" width="1" height="1">
 
-<h2>Opera Unite 版について</h2>
-Opera Unite 版の twicli unite は、元の twicli とほぼ完全に同じものです。<br>
-タイムラインを Unite 側にキャッシュする operaunite.js というプラグイン (下記参照) が最初から有効にっているため、twicli のタブを閉じてまた開くと素早く起動することがわかると思います。<br>
-上記のブックマークレットを使って新しいタブで開くか、
-<script type="text/javascript">
-document.write('<a href="http://'+location.host+'/twicli/twicli.html">こちら</a>');
-</script>
-を直接開いても使えます。Opera のパネルに入れて使うのもオススメです。
-</p>
-
 <h2>カスタマイズ</h2>
 <h3>user stylesheetについて</h3>
 「+」タブのuser stylesheetにCSSを記述して、見た目のカスタマイズが可能です。例えば：
@@ -102,11 +92,12 @@ document.write('<a href="http://'+location.host+'/twicli/twicli.html">こちら<
 標準で以下のプラグインが入っています。
 <ul>
 <li><b>regexp.js</b> : 特定のIDやキーワードを含む発言を抽出するタブを追加します。詳しくは<a href="http://d.hatena.ne.jp/NeoCat/20090101">こちら</a>。
-<!-- <li><b>outputz.js</b> : 発言した文字数を<a href="http://outputz.com/">Outputz</a>に送信します。 -->
+<li><b>outputz.js</b> : 発言した文字数を<a href="http://outputz.com/">Outputz</a>に送信します。<strong>(twicli unite では手動でオンにする必要があります)</strong>
 <li><b>search.js</b> : <a href="http://search.twitter.com/">Twitter Search</a>でのキーワード検索を「+」タブに追加します。
-<!-- <li><b>search2.js</b> : <a href="http://pcod.no-ip.org/yats/">twitter検索</a>での検索機能を「+」タブに追加します。 -->
-<!-- <li><b>favotter.js</b> : <a href="http://favotter.matope.com/">ふぁぼったー</a>の最新2000件のふぁぼられ数を<span style="background-color:#6fc; color:#00c;">[fav:3]</span>のようにTLやユーザの発言に追加表示します。 -->
+<li><b>search2.js</b> : <a href="http://pcod.no-ip.org/yats/">twitter検索</a>での検索機能を「+」タブに追加します。<strong>(twicli unite では手動でオンにする必要があります)</strong>
+<li><b>favotter.js</b> : <a href="http://favotter.matope.com/">ふぁぼったー</a>の最新2000件のふぁぼられ数を<span style="background-color:#6fc; color:#00c;">[fav:3]</span>のようにTLやユーザの発言に追加表示します。<strong>(twicli unite では unite_favotter.js を代わりに使ってください)</strong>
 <li><b>followers.js</b> : follower以外<small> (いわゆる片想い) </small>の発言を青色で表示します。「+」タブのColor Followers→Renewボタンを押して最新のfollower一覧を取得する必要があります(デフォルトは無効)。
+<li><b>sound.js</b> <span style="font-size: small; color: red">[非標準]</span> : TLやReplyの新着時にサウンドを鳴らします。デフォルトでは入っていませんので、使用するにはPreferences＞Pluginsの先頭あたりに追加してください。
 </ul>
 
 <h2>ソース</h2>
@@ -130,6 +121,17 @@ document.write('<a href="http://'+location.host+'/twicli/twicli.html">こちら<
 
 <h2>作ってる人</h2>
 <a href="http://twitter.com/NeoCat">@NeoCat</a>
+
+<h2>Opera Unite 版について</h2>
+Opera Unite 版の twicli unite は、元の twicli とほぼ完全に同じものです。<br>
+タイムラインを Unite 側にキャッシュする unite_cache.js というプラグイン (下記参照) が最初から有効にっているため、twicli のタブを閉じてまた開くと素早く起動することがわかると思います。<br>
+上記のブックマークレットを使って新しいタブで開くか、<a href="/twicli/twicli.html">こちら</a>を直接開いても使えます。Opera のパネルに入れて使うのもオススメです。
+</p>
+<ul>
+<li><b>unite_cache.js</b> : タイムラインを記憶しておくことにより、起動が高速になります。
+<li><b>unite_longer_url.js</b> : 短縮 URL を展開してくれます。
+<li><b>unite_favotter.js</b> : 標準プラグインの favotter.js とほぼ同じものです。twicli unite ではこちらを代わりに使ってください。
+</ul>
 
 </div>
 </body>

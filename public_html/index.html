@@ -72,14 +72,6 @@ function go(d) {
 <img alt="usage" src="usage4.png" width="1" height="1">
 <img alt="usage" src="usage5.png" width="1" height="1">
 
-<h2>About Opera Unite version</h2>
-<p>twicli unite, the Opera Unite version of twicli, can be launched by the above bookmarklet, or directly open
-<script type="text/javascript">
-  document.write('<a href="http://'+location.host+'/twicli/twicli.html">this</a>');
-</script>
-.<br>
-You can also use it in Opera's panel.</p>
-
 <h2>Customize</h2>
 <h3>User Stylesheet</h3>
 You can add your own CSS in "user stylesheet" section of the "+" tab. For example;
@@ -93,11 +85,12 @@ You can register plugins by setting them at the "Preferences" in the "+" tab.<br
 By default, you have those plugins below;
 <ul>
 <li><b>regexp.js</b> : Add a tab that extracts timeline that has specific keywords, id, etc.<a href="http://d.hatena.ne.jp/NeoCat/20090101">More detail (Japanese)</a>。
-<!-- <li><b>outputz.js</b> : Count how many letters you tweet, and send it to <a href="http://outputz.com/">Outputz</a>. -->
+<li><b>outputz.js</b> : Count how many letters you tweet, and send it to <a href="http://outputz.com/">Outputz</a>. <strong>(Opt-in on twicli unite)</strong>
 <li><b>search.js</b> : Add keyword search by <a href="http://search.twitter.com/">Twitter Search</a> to the "+" tab.
-<!-- <li><b>search2.js</b> : Add keyword search by <a href="http://pcod.no-ip.org/yats/">twitter検索</a> to the "+" tab. -->
-<!-- <li><b>favotter.js</b> : Indicate latest popular favorized tweets like <span style="background-color:#6fc; color:#00c;">[fav:3]</span>. Thanks to <a href="http://favotter.matope.com/">Favotter</a> -->
+<li><b>search2.js</b> : Add keyword search by <a href="http://pcod.no-ip.org/yats/">twitter検索</a> to the "+" tab. <strong>(Opt-in on twicli unite)</strong>
+<li><b>favotter.js</b> : Indicate latest popular favorized tweets like <span style="background-color:#6fc; color:#00c;">[fav:3]</span>. Thanks to <a href="http://favotter.matope.com/">Favotter</a>. <strong>(Does not exist on twicli unite)</strong>
 <li><b>followers.js</b> : Make tweets of user you don't follow shown in blue. To use this, you need to fetch the list of followers by clicking the "Renew" button at the "Color followers" section. (Turned off by default)
+<li><b>sound.js</b> : Play sound when updating timeline/reply. Opt-in.
 </ul>
 
 <h2>Source</h2>
@@ -116,6 +109,19 @@ It is developed at <a href="http://coderepos.org/share/browser/websites/twicli/"
 
 <h2>Author</h2>
 <a href="http://twitter.com/NeoCat">@NeoCat</a>
+
+<h2>About Opera Unite version</h2>
+<p>twicli unite, the Opera Unite version of twicli, is exactly the same as twicli except for some additional plugins. It can be launched by the above bookmarklet, or directly open <a href="/twicli/twicli.html">this</a>.<br>
+You can also use it in Opera's panel.<br>
+
+<h3>Plugins</h3>
+<ul>
+<li><b>unite_cache.js</b> : Cache timeline so that the page loads faster. 
+<li><b>unite_longer_url.js</b> : Expand short urls. 
+<li><b>unite_favotter.js</b> : Almost identical to the original favotter.js. (Opt-in)
+</ul>
+
+</p>
 
 </div>
 </body>
