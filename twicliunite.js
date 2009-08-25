@@ -112,7 +112,7 @@ function nr_favs(e){
       var url = favotter_url + (j+1);
       var xhr = new XMLHttpRequest;
       xhr.open('GET', url, true);
-      opera.postError('requesting : '+url);
+      //opera.postError('requesting : '+url);
       xhr.onreadystatechange = function(){
         //opera.postError('readyState : '+xhr.readyState);
         if (xhr.readyState == 4) {
@@ -123,7 +123,7 @@ function nr_favs(e){
             );
           }
           if (++count === total_pages) showFavs();
-          opera.postError('received : '+count);
+          //opera.postError('received : '+count);
         }
       };
       xhr.send(null);
