@@ -67,7 +67,7 @@ window.onload = function () {
   if (webserver){
     webserver.addEventListener('getcache', get_cache, false);
     webserver.addEventListener('setcache', set_cache, false);
-//    webserver.addEventListener('nr_favs.js', favs, false);
+    webserver.addEventListener('nr_favs.js', nr_favs, false);
     webserver.addEventListener('resolveurl', resolve_url, false);
   }
 }
@@ -89,45 +89,52 @@ function set_cache(e){
 }
 
 
-/*
-function favs(e){
-  opera.postError('nr_favs.js');
+// for favotter.js
+var favotter_updated_at = 0;
+var favs = [];
+function nr_favs(e){
   var response = e.connection.response;
-  response.setStatusCode(200);
-  response.setResponseHeader( 'Content-Type', 'text/javascript' );
-  response.write('favEntries({');
+  var showFavs = function(){
+    response.setStatusCode(200);
+    response.setResponseHeader( 'Content-Type', 'text/javascript' );
+    response.write('favEntries({' + favs.join('') + '});');
+    response.close()
+  };
 
-  var fav_url = "http://favotter.matope.com/home.php?page="
-  
-  var total_pages = 10;
-  var count = 0;
+  if (new Date - favotter_updated_at > 1000*60*20) { // cache favs up to 20 minutes
+    favotter_updated_at = new Date;
+    favs = [];
+    var favotter_url = "http://favotter.matope.com/home.php?page="
+    var total_pages = 10;
+    var count = 0;
 
-  for (var i=1;i<10;i++) (function(j){
-    var url = fav_url + j;
-    var xhr = new XMLHttpRequest;
-    xhr.open('GET', url, true);
-    opera.postError('requesting : '+url)
-    xhr.onreadystatechange = function(){
-      opera.postError('readyState : '+xhr.readyState);
-
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200) {
-          xhr.responseText.replace(
-            /posted at <a[^>]*?href="status.php\?id=(\d+)"[^>]*?><abbr[^>]*?>[^<]*?<\/abbr><\/a><span[^>]*?> (\d+) favs by/g, 
-            function(match, $1, $2){opera.postError($1+''+$2);response.write('"'+$1+'":'+$2+',');}
-          );
+    for (var i=0;i<total_pages;i++) (function(j){
+      var url = favotter_url + (j+1);
+      var xhr = new XMLHttpRequest;
+      xhr.open('GET', url, true);
+      opera.postError('requesting : '+url);
+      xhr.onreadystatechange = function(){
+        //opera.postError('readyState : '+xhr.readyState);
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            xhr.responseText.replace(
+              /posted at <a[^>]*?href="status.php\?id=(\d+)"[^>]*?><abbr[^>]*?>[^<]*?<\/abbr><\/a><span[^>]*?> (\d+) favs by/g, 
+              function(match, $1, $2){favs.push('"'+$1+'":'+$2+',');}
+            );
+          }
+          if (++count === total_pages) showFavs();
+          opera.postError('received : '+count);
         }
-        if (++count === total_pages) {
-          response.write('});\n');
-          response.close()
-        }
-        opera.postError('received : '+count);
-      }
-    };
-  })(i);
+      };
+      xhr.send(null);
+    })(i);
+  } else {
+    showFavs();
+  }
 }
-*/
 
+
+// for unite_longer_url.js
 var redirects = {};
 var time = new Date;
 // clear cache every 6 hours
