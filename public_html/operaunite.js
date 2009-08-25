@@ -29,7 +29,7 @@ if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').
 throw new SyntaxError('JSON.parse');};}}());
 
 
-
+// use cache
 (function(){
  
   var initialized = false;
@@ -49,6 +49,7 @@ throw new SyntaxError('JSON.parse');};}}());
     xhr.send();
 
     if (timeline !== null && timeline.length) {
+      //opera.postError(timeline.length);
       twShow(timeline);
     }
   }
@@ -63,6 +64,5 @@ throw new SyntaxError('JSON.parse');};}}());
     update : get_cache,
     gotNewMessage : set_cache
   })
-})()
-
+})();
 

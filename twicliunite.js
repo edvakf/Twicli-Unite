@@ -68,6 +68,7 @@ window.onload = function () {
     webserver.addEventListener('getcache', get_cache, false);
     webserver.addEventListener('setcache', set_cache, false);
 //    webserver.addEventListener('nr_favs.js', favs, false);
+    webserver.addEventListener('resolveurl', resolve_url, false);
   }
 }
 
@@ -126,3 +127,39 @@ function favs(e){
   })(i);
 }
 */
+
+var redirects = {};
+var time = new Date;
+// clear cache every 6 hours
+setInterval(function(){if(new Date-time>1000*60*60*6){time=new Date;redirects={}}},1000*60*10);
+
+function get_redirect(url){
+  var xhr = new XMLHttpRequest;
+  xhr.open('HEAD',url,false);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState == 4) {
+      if (xhr.status >= 300 && xhr.status < 400) {
+        redirects[url] = xhr.getResponseHeader('location');
+      } else {
+        redirects[url] = '';
+      }
+    }
+  }
+  xhr.send(null);
+}
+
+function resolve_url(e){
+  var request = e.connection.request;
+  var shortUrl = request.getItem('url')[0];
+
+  var response = e.connection.response;
+
+  if (typeof(redirects[shortUrl]) === 'undefined') {
+    get_redirect(shortUrl);
+  }
+  response.setStatusCode(200);
+  response.setResponseHeader( 'Content-Type', 'text/plain' );
+  response.write(redirects[shortUrl]);
+  response.close();
+}
+
