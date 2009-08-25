@@ -3,9 +3,11 @@ var twFavPlugin = {
 	fav_update: null,
 	favs: [],
 	update: function() {
-		if (this.cnt++ < 5) return;
-		this.cnt = 0;
-		this.fav_update = loadXDomainScript('/twicli/nr_favs.js?seq='+(seq++), this.fav_update);
+    setTimeout(function(){
+      if (this.cnt++ < 5) return;
+      this.cnt = 0;
+      this.fav_update = loadXDomainScript('/twicli/nr_favs.js?seq='+(seq++), this.fav_update);
+    },1000);
 	},
 	newMessageElement: function(ele, tw) {
 		var fele = document.createElement("a");
