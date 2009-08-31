@@ -23,7 +23,11 @@
       function(link){
         link.href = longUrl;
         if (link.textContent == shortUrl) {
-          var decoded = decodeURI(longUrl);
+          try{
+            var decoded = decodeURI(longUrl);
+          }catch(e){
+            var decoded = longUrl;
+          }
           if (decoded.length > 200) {
             link.textContent = decoded.slice(0,200)+'...';
           } else {

@@ -4,7 +4,7 @@ function Tweets(){
 };
 Tweets.prototype = {
   default_fetch_num : 50,
-  maximum_cache_length : 200,
+  max_cache_length : 200,
   fetch : function(n){
     if (!n || n < 0) n = this.default_fetch_num;
     return this.cache.slice(-n).reverse();
@@ -15,17 +15,20 @@ Tweets.prototype = {
     if (n === 0 || id > this.cache[n-1]['id']) {
       this.cache.push(tw);
     } else {
-      for(;--n>0;) {
+      for(;n-->0;) {
         item_id = this.cache[n]['id'];
         if (id == item_id) {
           break;
-        } else if (id < item_id) {
+        } else if (id > item_id) {
           this.cache.splice(n+1,0,tw);
           break;
         }
       }
+      if (n<0 && this.cache.length < this.max_cache_length) {
+        this.cache.unshift(tw);
+      }
     }
-    this.cache = this.cache.slice(-this.maximum_cache_length);
+    this.cache = this.cache.slice(-this.max_cache_length);
   }
 }
 var tweets = new Tweets();
