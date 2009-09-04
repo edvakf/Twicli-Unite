@@ -1,6 +1,6 @@
 /* replace short URLs with original URLs */
 (function(){
-  var re = /^http:\/\/(?:tinyurl\.com|bit\.ly|is\.gd|u\.nu|icio\.us|tr\.im)\//;
+  var re = /^http:\/\/(?:tinyurl\.com|bit\.ly|is\.gd|u\.nu|icio\.us|tr\.im|cli\.gs|twurl\.nl)\//;
 
   function resolveUrl(url){
     requestUrl = location.href.replace(/[^\/]*$/,'resolveurl') + '?url=' + encodeURIComponent(url);
