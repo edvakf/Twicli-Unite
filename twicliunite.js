@@ -55,7 +55,7 @@ function get_cache(e){
 function set_cache(e){
   var request = e.connection.request;
 
-  JSON.parse(request.body).forEach(tweets.store);
+  JSON.parse(request.body).forEach(function(tw){tweets.store(tw)});
   var response = e.connection.response;
   response.close();
 }
@@ -84,9 +84,7 @@ function nr_favs(e){
       var url = favotter_url + (j+1);
       var xhr = new XMLHttpRequest;
       xhr.open('GET', url, true);
-      //opera.postError('requesting : '+url);
       xhr.onreadystatechange = function(){
-        //opera.postError('readyState : '+xhr.readyState);
         if (xhr.readyState == 4) {
           if (xhr.status == 200) {
             xhr.responseText.replace(
@@ -95,7 +93,6 @@ function nr_favs(e){
             );
           }
           if (++count === total_pages) showFavs();
-          //opera.postError('received : '+count);
         }
       };
       xhr.send(null);
@@ -113,15 +110,12 @@ var time = new Date;
 setInterval(function(){if(new Date-time>1000*60*60*6){time=new Date;redirects={}}},1000*60*10);
 
 function get_redirect2(url){
-  opera.postError(url);
   var api = 'http://atsushaa.appspot.com/untiny/get?url=';
   var xhr = new XMLHttpRequest;
   xhr.open('GET', api + encodeURIComponent(url),false);
   xhr.onload = function(){
-    opera.postError(xhr.responseText);
     var redir = JSON.parse(xhr.responseText);
     if (redir[url]) {
-      opera.postError(redir[url]);
       redirects[url] = redir[url];
     } else {
       redirects[url] = '';
@@ -154,7 +148,6 @@ function resolve_url(e){
   if (typeof(redirects[shortUrl]) === 'undefined') {
     get_redirect(shortUrl);
     if (/[^!-~]/.test(redirects[shortUrl])) {
-      opera.postError(redirects[shortUrl]);
       get_redirect2(shortUrl);
     }
   }
@@ -174,13 +167,10 @@ function auth(e){
     xhr.open('GET','http://twitter.com/account/verify_credentials.json?callback=twAuth',false);
     xhr.onreadystatechange = function(){
       if (xhr.readyState == 4) {
-//        opera.postError(xhr.readyState);
         if (xhr.status == 200) {
-//          opera.postError(xhr.responseText);
           authInfo = xhr.responseText;
           authTime = +new Date;
         } else {
-//          opera.postError(xhr.status);
         }
       }
     }

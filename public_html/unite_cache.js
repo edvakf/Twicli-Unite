@@ -41,15 +41,19 @@ throw new SyntaxError('JSON.parse');};}}());
     var timeline = null;
     var xhr = new XMLHttpRequest();
     xhr.open('GET','/twicli/getcache'+'?timestamp='+(+new Date),false);
+    /*
     xhr.onreadystatechange = function(){
       if (xhr.readyState == 4 && xhr.status == 200) {
         timeline = JSON.parse(xhr.responseText);
       }
     }
+    */
+    xhr.onload = function(){
+      timeline = JSON.parse(xhr.responseText);
+    }
     xhr.send();
 
     if (timeline !== null && timeline.length) {
-      //opera.postError(timeline.length);
       twShow(timeline);
     }
   }
@@ -58,10 +62,8 @@ throw new SyntaxError('JSON.parse');};}}());
   var timer = null;
   function set_cache(node, tw, node_id){
     queue.push(tw);
-    opera.postError(queue.length);
     if (!timer) {
       timer = setTimeout(function(){
-        opera.postError('flush');
         var xhr = new XMLHttpRequest();
         xhr.open('POST','/twicli/setcache',true);
         xhr.send(JSON.stringify(queue));
