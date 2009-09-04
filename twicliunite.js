@@ -4,7 +4,7 @@ function Tweets(){
 };
 Tweets.prototype = {
   default_fetch_num : 50,
-  max_cache_length : 200,
+  max_cache_length : 100,
   fetch : function(n){
     if (!n || n < 0) n = this.default_fetch_num;
     return this.cache.slice(-n).reverse();
@@ -29,7 +29,7 @@ Tweets.prototype = {
       }
     }
     this.cache = this.cache.slice(-this.max_cache_length);
-  }
+  },
 }
 var tweets = new Tweets();
 
@@ -40,6 +40,7 @@ window.onload = function () {
     webserver.addEventListener('setcache', set_cache, false);
     webserver.addEventListener('nr_favs.js', nr_favs, false);
     webserver.addEventListener('resolveurl', resolve_url, false);
+    webserver.addEventListener('auth', auth, false);
   }
 }
 
@@ -54,7 +55,7 @@ function get_cache(e){
 function set_cache(e){
   var request = e.connection.request;
 
-  tweets.store(JSON.parse(request.body));
+  JSON.parse(request.body).forEach(tweets.store);
   var response = e.connection.response;
   response.close();
 }
@@ -163,3 +164,30 @@ function resolve_url(e){
   response.close();
 }
 
+// for auth
+var authInfo = null;
+var authTime = 0;
+function auth(e){
+  var response = e.connection.response;
+  if (!authInfo || new Date - authTime > 1000*60*60) {
+    var xhr = new XMLHttpRequest;
+    xhr.open('GET','http://twitter.com/account/verify_credentials.json?callback=twAuth',false);
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState == 4) {
+//        opera.postError(xhr.readyState);
+        if (xhr.status == 200) {
+//          opera.postError(xhr.responseText);
+          authInfo = xhr.responseText;
+          authTime = +new Date;
+        } else {
+//          opera.postError(xhr.status);
+        }
+      }
+    }
+    xhr.send(null);
+  }
+  response.setResponseHeader( 'Content-Type', 'text/javascript' );
+  response.write(authInfo);
+  response.write('');
+  response.close();
+}

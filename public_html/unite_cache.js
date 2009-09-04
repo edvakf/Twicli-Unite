@@ -54,15 +54,27 @@ throw new SyntaxError('JSON.parse');};}}());
     }
   }
 
-  function set_cache(tw){
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST','/twicli/setcache',true);
-    xhr.send(JSON.stringify(tw));
+  var queue = [];
+  var timer = null;
+  function set_cache(node, tw, node_id){
+    queue.push(tw);
+    opera.postError(queue.length);
+    if (!timer) {
+      timer = setTimeout(function(){
+        opera.postError('flush');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','/twicli/setcache',true);
+        xhr.send(JSON.stringify(queue));
+        queue = [];
+        timer = null;
+      },100);
+    }
   }
 
   registerPlugin({
     update : get_cache,
-    gotNewMessage : set_cache
+    newMessageElement : set_cache,
+    //gotNewMessage : set_cache
   })
 })();
 
