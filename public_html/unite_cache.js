@@ -69,7 +69,7 @@ throw new SyntaxError('JSON.parse');};}}());
         xhr.send(JSON.stringify(queue));
         queue = [];
         timer = null;
-      },100);
+      },150);
     }
   }
 
