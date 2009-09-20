@@ -23,3 +23,5 @@ them into the "public_html" directory.
   - added sound.js and twicli_s.html to follow the original twicli
   - made unite_longer_url.js
   - slightly changed favotter.js and renamed it to unite_favotter.js
+- 2009-09-20
+  - included unite_regexp.js and unite_betterRT.js
