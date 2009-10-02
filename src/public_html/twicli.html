@@ -324,9 +324,17 @@ function twAuth(a) {
 	myid = a.id;
 	$("user").innerHTML = last_user;
 	update();
+	writeCookie('myname', myname);
+	writeCookie('myid', myid);
 }
 function auth() {
-	auth_ele = loadXDomainScript(twitterURL + "account/verify_credentials.json?callback=twAuth&seq="+(seq++), auth_ele);
+	var screen_name = readCookie('myname');
+	var id = readCookie('myid');
+	if ( screen_name && id ) {
+		twAuth({screen_name : screen_name, id : id});
+	} else {
+		auth_ele = loadXDomainScript(twitterURL + "account/verify_credentials.json?callback=twAuth&seq="+(seq++), auth_ele);
+	}
 }
 
 // enterキーで発言

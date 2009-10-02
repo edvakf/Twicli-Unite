@@ -54,7 +54,7 @@ Be careful not to hit <b>API request limi (150 requests per hour)</b> by clickin
 <h3>How to Use</h3>
 <table width="100%"><tr>
 <td width="40"><img alt="prev" onClick="go(-1)" src="left.png" class="button"></td>
-<td align="center"><img alt="usage" id="usage" width="600" height="480" src="usage2.png"></td>
+<td align="center"><img alt="usage" id="usage" width="600" height="480" src="usage2.en.png"></td>
 <td width="40"><img alt="next" onClick="go(1)" src="right.png" class="button"></td>
 </tr></table>
 <script type="text/javascript">
@@ -64,13 +64,13 @@ function go(d) {
 	var usage = document.getElementById("usage");
 	usage.width = [600,600,480,480][i];
 	usage.height = [480,480,480,710][i];
-	usage.src = "usage"+(i+2)+".png";
+	usage.src = "usage"+(i+2)+".en.png";
 }
 </script>
-<img alt="usage" src="usage2.png" width="1" height="1">
-<img alt="usage" src="usage3.png" width="1" height="1">
-<img alt="usage" src="usage4.png" width="1" height="1">
-<img alt="usage" src="usage5.png" width="1" height="1">
+<img alt="usage" src="usage2.en.png" width="1" height="1">
+<img alt="usage" src="usage3.en.png" width="1" height="1">
+<img alt="usage" src="usage4.en.png" width="1" height="1">
+<img alt="usage" src="usage5.en.png" width="1" height="1">
 
 <h2>Customize</h2>
 <h3>User Stylesheet</h3>
@@ -94,7 +94,7 @@ By default, you have those plugins below;
 </ul>
 
 <h2>Source</h2>
-It is developed at <a href="http://coderepos.org/share/browser/websites/twicli/">CodeRepos</a> under <a href="LICENSE.txt">MIT license</a>
+twicli is developed at <a href="http://coderepos.org/share/browser/websites/twicli/">CodeRepos</a> under <a href="LICENSE.txt">MIT license</a>
 <p><a href="http://coderepos.org/share/browser/websites/twicli/twicli.html">twicli.html</a> is the main file (HTML+CSS+JavaScript), others are plugins and images.</p>
 <p>Bug/wishes can be reported to <a href="http://twitter.com/NeoCat">@NeoCat</a>.</p>
 

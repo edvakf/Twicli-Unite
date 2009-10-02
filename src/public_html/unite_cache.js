@@ -41,13 +41,6 @@ throw new SyntaxError('JSON.parse');};}}());
     var timeline = null;
     var xhr = new XMLHttpRequest();
     xhr.open('GET','/twicli/getcache'+'?timestamp='+(+new Date),false);
-    /*
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        timeline = JSON.parse(xhr.responseText);
-      }
-    }
-    */
     xhr.onload = function(){
       timeline = JSON.parse(xhr.responseText);
     }
@@ -76,7 +69,6 @@ throw new SyntaxError('JSON.parse');};}}());
   registerPlugin({
     update : get_cache,
     newMessageElement : set_cache,
-    //gotNewMessage : set_cache
   })
 })();
 

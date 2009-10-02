@@ -9,7 +9,21 @@ Tweets.prototype = {
     if (!n || n < 0) n = this.default_fetch_num;
     return this.cache.slice(-n).reverse();
   },
-  store : function(tw){
+  store : function(tws){
+    var cache = this.cache.concat(tws).sort(function(a,b){
+      var aid = a['id'], bid = b['id'];
+      if (aid>bid) return 1;
+      if (aid<bid) return -1;
+      return 0;
+    })
+    var n = cache.length;
+    while(--n) {
+      if (cache[n]['id'] == cache[n-1]['id']) {
+        cache.splice(n,1);
+      }
+    }
+    this.cache = cache.slice(-this.max_cache_length);
+    /*
     var id = tw['id'];
     var n = this.cache.length;
     if (n === 0 || id > this.cache[n-1]['id']) {
@@ -29,6 +43,7 @@ Tweets.prototype = {
       }
     }
     this.cache = this.cache.slice(-this.max_cache_length);
+    */
   },
 }
 var tweets = new Tweets();
@@ -54,8 +69,7 @@ function get_cache(e){
 
 function set_cache(e){
   var request = e.connection.request;
-
-  JSON.parse(request.body).forEach(function(tw){tweets.store(tw)});
+  tweets.store(JSON.parse(request.body));
   var response = e.connection.response;
   response.close();
 }
