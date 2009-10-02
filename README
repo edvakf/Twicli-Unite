@@ -25,3 +25,6 @@ them into the "public_html" directory.
   - slightly changed favotter.js and renamed it to unite_favotter.js
 - 2009-09-20
   - included unite_regexp.js and unite_betterRT.js
+- 2009-10-01
+  - included the latest binary, moved everything else to the src directory
+  - http://github.com/edvakf/Twicli-Unite/raw/master/twicli_unite.ua
