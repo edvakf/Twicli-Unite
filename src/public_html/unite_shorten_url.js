@@ -3,7 +3,7 @@
 
   window.updateCount = function(){
     var fst = $('fst');
-    if (/((https?:\/\/.+?)(;;;|；；；))/.test(fst.value)) {
+    if (/((https?:\/\/[^\s]+?)(;;;|；；；))/.test(fst.value)) {
       var command = RegExp.$1;
       var originalUrl = RegExp.$2;
       if (originalUrl.indexOf('http://j.mp/') === 0) {
