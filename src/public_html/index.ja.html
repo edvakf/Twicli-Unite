@@ -14,8 +14,9 @@ h1 { border-bottom: solid 2px red; }
 h2 { border-left: solid 1.2em #cf6; padding-left: 4px; }
 h3 { border-left: solid 1.2em #fc0; padding-left: 4px; }
 img { border: none; }
-.language_selection { float:left; margin-left:700px; }
+.language_selection { float:left; margin-left:700px;}
 --></style>
+<a class="language_selection" href="index.en.html">English</a>
 <script type="text/javascript">
 function hatena_bookmark(url) {
 	document.write('<a href="http://b.hatena.ne.jp/entry/'+url+'"><img src="http://d.hatena.ne.jp/images/b_entry.gif" width="16" height="12" alt="このエントリーを含むはてなブックマーク" title="このエントリーを含むはてなブックマーク"><\/a>');
@@ -24,7 +25,6 @@ function hatena_bookmark(url) {
 </script>
 </head>
 <body>
-<a class="language_selection" href="/twicli/">English</a>
 <div class="whole">
 <h1><img alt="twicli" src="icon.png" width="32" height="32"> twicli</h1>
 <script type="text/javascript">hatena_bookmark("http://www.geocities.jp/twicli/")</script>
@@ -39,14 +39,10 @@ twicliはWebブラウザー上で動くTwitterクライアントです。
 
 <p>
 ネットカフェで他事しながらTwitterを眺めたいときなどに便利かも。<br>
-今のところFirefox, Safari, Opera, IE8で動いています。<br>
+今のところFirefox, Chrome, Safari, Opera, IE8で動いています。<br>
 iPhone/iPod touchのSafariでもOKです。<br>
 IE7でも一応動作しますが、一部の表示が乱れます。<br>
-<div class="launch">
-<script type="text/javascript">
-document.write('<a href="javascript:void window.open(\'http://'+location.host+'/twicli/twicli.html\', \'twicli\', \'width=280,height=600,menubar=no,toolbar=no,scrollbars=no,location=no,resizable=yes\')">twicliを起動</a>');
-</script>
-</div>
+<div class="launch"><a href="javascript:void window.open('http://www.geocities.jp/twicli/twicli.html', 'twicli', 'width=280,height=600,menubar=no,toolbar=no,scrollbars=yes,location=no,resizable=yes')">twicliを起動</a></div>
 </td><td>
 <img alt="screenshot" width="331" height="478" src="usage1.png" align="right">
 </td></tr></table>
@@ -54,7 +50,7 @@ document.write('<a href="javascript:void window.open(\'http://'+location.host+'/
 <h2>使い方</h2>
 <h3>起動</h3>
 上のリンク(bookmarklet)をクリック、またはブックマークにD&amp;Dで登録して選択すると、別窓で起動します。<br>
-認証を求められたら、Twitterのアカウント／パスワードを入力してください。<br><br>
+認証を求められたら、"twitter.com"からの要求かを確認した上で、Twitterのアカウント／パスワードを入力してください。<br><br>
 あんまり激しくクリックしまくると<b>API制限(150回/1時間)</b>にすぐ引っかかりますので、基本まったりご使用下さい。^^;
 </p>
 
@@ -92,12 +88,19 @@ function go(d) {
 以下のプラグインがあります。
 <ul>
 <li><b>regexp.js</b> : 特定のIDやキーワードを含む発言を抽出するタブを追加します。詳しくは<a href="http://d.hatena.ne.jp/NeoCat/20090101">こちら</a>。
-<li><b>outputz.js</b> : 発言した文字数を<a href="http://outputz.com/">Outputz</a>に送信します。<strong>(twicli unite では手動でオンにする必要があります)</strong>
+<li><b>outputz.js</b> : 発言した文字数を<a href="http://outputz.com/">Outputz</a>に送信します。
 <li><b>search.js</b> : <a href="http://search.twitter.com/">Twitter Search</a>でのキーワード検索を「+」タブに追加します。
-<li><b>search2.js</b> : <a href="http://pcod.no-ip.org/yats/">twitter検索</a>での検索機能を「+」タブに追加します。<strong>(twicli unite では手動でオンにする必要があります)</strong>
-<li><b>favotter.js</b> : <a href="http://favotter.matope.com/">ふぁぼったー</a>の最新2000件のふぁぼられ数を<span style="background-color:#6fc; color:#00c;">[fav:3]</span>のようにTLやユーザの発言に追加表示します。<strong>(twicli unite では unite_favotter.js を代わりに使ってください)</strong>
+<li><b>search2.js</b> : <a href="http://pcod.no-ip.org/yats/">twitter検索</a>での検索機能を「+」タブに追加します。
+<li><b>favotter.js</b> : <a href="http://favotter.matope.com/">ふぁぼったー</a>の最新2000件のふぁぼられ数を<span style="background-color:#6fc; color:#00c;">[fav:3]</span>のようにTLやユーザの発言に追加表示します。
 <li><b>followers.js</b> : follower以外<small> (いわゆる片想い) </small>の発言を青色で表示します。「+」タブのColor Followers→Renewボタンを押して最新のfollower一覧を取得する必要があります(デフォルトは無効)。
 <li><b>sound.js</b> <span style="font-size: small; color: red">[非標準]</span> : TLやReplyの新着時にサウンドを鳴らします。デフォルトでは入っていませんので、使用するにはPreferences＞Pluginsの先頭あたりに追加してください。
+</ul>
+
+<h2>FAQ</h2>
+<ul>
+<li><b>NGワード（指定語句を含む発言を隠す）機能はないの?</b><blockquote> →抽出プラグインでできます。(下記リンク参照)</blockquote></li>
+<li><b>たまにポストに失敗するみたいなんだけど…</b><blockquote> → Twitterの過負荷で鯨が出ているのかもしれません。「r」とだけ書いてポストすると、一つ前の発言を再送できます。</blockquote></li>
+<li><b>見た目がしょぼいんだけど…</b><blockquote> → 表示できる情報量を増やすため詰め込みぎみなのと、NeoCatの怠慢です…。twicli用のuser stylesheetを公開して下さっている方がいらっしゃるので、参考にしてみてください。改善案もお待ちしてます。</blockquote></li>
 </ul>
 
 <h2>ソース</h2>
@@ -109,7 +112,7 @@ function go(d) {
 <ul>
 <li><a href="http://d.hatena.ne.jp/NeoCat/20080819/1219133294">開発メモ</a>
 <script type="text/javascript">hatena_bookmark("http://d.hatena.ne.jp/NeoCat/20080819/1219133294");</script></li>
-<li><a href="http://d.hatena.ne.jp/NeoCat/20080819/1219133294">プラグイン開発メモ</a>
+<li><a href="http://d.hatena.ne.jp/NeoCat/20080904/1220482528">プラグイン開発メモ</a>
 <script type="text/javascript">hatena_bookmark("http://d.hatena.ne.jp/NeoCat/20080904/1220482528");</script></li>
 <li><a href="http://d.hatena.ne.jp/NeoCat/20081121/1227282584">Outputzプラグインについて</a>
 <script type="text/javascript">hatena_bookmark("http://d.hatena.ne.jp/NeoCat/20081121/1227282584");</script></li>
@@ -123,17 +126,6 @@ function go(d) {
 
 <h2>作ってる人</h2>
 <a href="http://twitter.com/NeoCat">@NeoCat</a>
-
-<h2>Opera Unite 版について</h2>
-Opera Unite 版の twicli unite は、元の twicli とほぼ完全に同じものです。<br>
-タイムラインを Unite 側にキャッシュする unite_cache.js というプラグイン (下記参照) が最初から有効にっているため、twicli のタブを閉じてまた開くと素早く起動することがわかると思います。<br>
-上記のブックマークレットを使って新しいタブで開くか、<a href="/twicli/twicli.html">こちら</a>を直接開いても使えます。Opera のパネルに入れて使うのもオススメです。
-</p>
-<ul>
-<li><b>unite_cache.js</b> : タイムラインを記憶しておくことにより、起動が高速になります。
-<li><b>unite_longer_url.js</b> : 短縮 URL を展開してくれます。
-<li><b>unite_favotter.js</b> : 標準プラグインの favotter.js とほぼ同じものです。twicli unite ではこちらを代わりに使ってください。
-</ul>
 
 </div>
 </body>
