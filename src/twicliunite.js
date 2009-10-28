@@ -23,27 +23,6 @@ Tweets.prototype = {
       }
     }
     this.cache = cache.slice(-this.max_cache_length);
-    /*
-    var id = tw['id'];
-    var n = this.cache.length;
-    if (n === 0 || id > this.cache[n-1]['id']) {
-      this.cache.push(tw);
-    } else {
-      for(;n-->0;) {
-        item_id = this.cache[n]['id'];
-        if (id == item_id) {
-          break;
-        } else if (id > item_id) {
-          this.cache.splice(n+1,0,tw);
-          break;
-        }
-      }
-      if (n<0 && this.cache.length < this.max_cache_length) {
-        this.cache.unshift(tw);
-      }
-    }
-    this.cache = this.cache.slice(-this.max_cache_length);
-    */
   },
 }
 var tweets = new Tweets();
@@ -55,7 +34,7 @@ window.onload = function () {
     webserver.addEventListener('setcache', set_cache, false);
     webserver.addEventListener('nr_favs.js', nr_favs, false);
     webserver.addEventListener('resolveurl', resolve_url, false);
-    webserver.addEventListener('auth', auth, false);
+    webserver.addEventListener('shorten', shorten, false);
   }
 }
 
@@ -171,27 +150,19 @@ function resolve_url(e){
   response.close();
 }
 
-// for auth
-var authInfo = null;
-var authTime = 0;
-function auth(e){
-  var response = e.connection.response;
-  if (!authInfo || new Date - authTime > 1000*60*60) {
+function shorten(e){
+  var request = e.connection.request;
+  var result = null;
+  var url = request.getItem('url');
+  if (url) {
+    url = url[0];
     var xhr = new XMLHttpRequest;
-    xhr.open('GET','http://twitter.com/account/verify_credentials.json?callback=twAuth',false);
-    xhr.onreadystatechange = function(){
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200) {
-          authInfo = xhr.responseText;
-          authTime = +new Date;
-        } else {
-        }
-      }
-    }
+    xhr.open('GET', 'http://j.mp/?url='+encodeURIComponent(url), false);
+    xhr.onload = function(){ if(/<input id="shortened-url" value="(.+?)"/.test(xhr.responseText)) result = RegExp.$1 };
     xhr.send(null);
   }
-  response.setResponseHeader( 'Content-Type', 'text/javascript' );
-  response.write(authInfo);
-  response.write('');
+  var response = e.connection.response;
+  response.setResponseHeader( 'Content-Type', 'text/plain' );
+  response.write(result || '');
   response.close();
 }
