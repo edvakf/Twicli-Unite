@@ -7,7 +7,7 @@
     if (!requesting && /((https?:\/\/[^\s]+?)(;;;|；；；))/.test(fst.value)) {
       var command = RegExp.$1;
       var originalUrl = RegExp.$2;
-      if (originalUrl.indexOf('http://j.mp/') === 0 && originalUrl.indexOf('http://bit.ly/') === 0) {
+      if (originalUrl.indexOf('http://j.mp/') === 0 || originalUrl.indexOf('http://bit.ly/') === 0) {
         var requestUrl = './resolveurl?url='+encodeURIComponent(originalUrl);
       } else {
         var requestUrl = './shorten?url='+encodeURIComponent(originalUrl);
