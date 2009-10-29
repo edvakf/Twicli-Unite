@@ -13,7 +13,8 @@
   }
 
   function replaceUrl(shortUrl, longUrl){
-    if (!longUrl) return;
+    // if longUrl doesn't exist or longUrl is still a short URL
+    if (!longUrl || re.test(longUrl)) return;
     Array.prototype.forEach.call(
       document.querySelectorAll('a[href="'+shortUrl+'"]'),
       function(link){
