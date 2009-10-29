@@ -28,3 +28,5 @@ them into the "public_html" directory.
 - 2009-10-01
   - included the latest binary, moved everything else to the src directory
   - http://github.com/edvakf/Twicli-Unite/raw/master/twicli_unite.zip
+- 2009-10-28
+  - included unite_shorten_url.js
