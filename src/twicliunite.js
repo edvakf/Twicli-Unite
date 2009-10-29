@@ -32,7 +32,6 @@ window.onload = function () {
   if (webserver){
     webserver.addEventListener('getcache', get_cache, false);
     webserver.addEventListener('setcache', set_cache, false);
-    webserver.addEventListener('nr_favs.js', nr_favs, false);
     webserver.addEventListener('resolveurl', resolve_url, false);
     webserver.addEventListener('shorten', shorten, false);
   }
@@ -52,49 +51,6 @@ function set_cache(e){
   var response = e.connection.response;
   response.close();
 }
-
-
-// for favotter.js
-var favotter_updated_at = 0;
-var favs = [];
-function nr_favs(e){
-  var response = e.connection.response;
-  var showFavs = function(){
-    response.setStatusCode(200);
-    response.setResponseHeader( 'Content-Type', 'text/javascript' );
-    response.write('favEntries({' + favs.join('') + '});');
-    response.close()
-  };
-
-  if (new Date - favotter_updated_at > 1000*60*20) { // cache favs up to 20 minutes
-    favotter_updated_at = new Date;
-    favs = [];
-    var favotter_url = "http://favotter.matope.com/home.php?page="
-    var total_pages = 10;
-    var count = 0;
-
-    for (var i=0;i<total_pages;i++) (function(j){
-      var url = favotter_url + (j+1);
-      var xhr = new XMLHttpRequest;
-      xhr.open('GET', url, true);
-      xhr.onreadystatechange = function(){
-        if (xhr.readyState == 4) {
-          if (xhr.status == 200) {
-            xhr.responseText.replace(
-              /posted at <a[^>]*?href="status.php\?id=(\d+)"[^>]*?><abbr[^>]*?>[^<]*?<\/abbr><\/a><span[^>]*?> (\d+) favs by/g, 
-              function(match, $1, $2){favs.push('"'+$1+'":'+$2+',');}
-            );
-          }
-          if (++count === total_pages) showFavs();
-        }
-      };
-      xhr.send(null);
-    })(i);
-  } else {
-    showFavs();
-  }
-}
-
 
 // for unite_longer_url.js
 var redirects = {};

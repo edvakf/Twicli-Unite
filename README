@@ -30,3 +30,5 @@ them into the "public_html" directory.
   - http://github.com/edvakf/Twicli-Unite/raw/master/twicli_unite.zip
 - 2009-10-28
   - included unite_shorten_url.js
+- 2009-10-29
+  - delete unite_favotter.js and included original favotter.js
