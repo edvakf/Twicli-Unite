@@ -17,8 +17,14 @@
       requesting = true;
       xhr.onload = function(){ 
         requesting = false;
-        if (xhr.responseText && fst.value.indexOf(command) >= 0) {
-          fst.value = fst.value.replace(command, xhr.responseText);
+        if (fst.value.indexOf(command) >= 0) {
+          var newUrl = xhr.responseText;
+          if (newUrl) {
+            try { newUrl = decodeURI(newUrl) } catch(e) {}
+          } else {
+            newUrl = originalUrl;
+          }
+          fst.value = fst.value.replace(command, newUrl);
         }
         _updateCount();
       };
