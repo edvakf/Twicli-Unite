@@ -54,6 +54,7 @@ throw new SyntaxError('JSON.parse');};}}());
   var queue = [];
   var timer = null;
   function set_cache(node, tw, node_id){
+    if (selected_menu !== $('TL')) return;
     queue.push(tw);
     if (!timer) {
       timer = setTimeout(function(){
