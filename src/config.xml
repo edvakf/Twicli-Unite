@@ -4,12 +4,12 @@
 
   <description>Browser based twitter client, ported to Opera Unite</description>
 
-  <icon width='256' height='256' >icon.256x256.png</icon>
-  <icon width='128' height='128' >icon.128x128.png</icon>
-  <icon width='64' height='64' >icon.64x64.png</icon>
-  <icon width='48' height='48' >icon.48x48.png</icon>
-  <icon width='32' height='32' >icon.32x32.png</icon>
-	<icon width='16' height='16' >icon.16x16.png</icon>
+  <icon width='256' height='256' >icons/icon.256x256.png</icon>
+  <icon width='128' height='128' >icons/icon.128x128.png</icon>
+  <icon width='64' height='64' >icons/icon.64x64.png</icon>
+  <icon width='48' height='48' >icons/icon.48x48.png</icon>
+  <icon width='32' height='32' >icons/icon.32x32.png</icon>
+  <icon width='16' height='16' >icons/icon.16x16.png</icon>
 
   <author>
     <name>edvakf</name>
