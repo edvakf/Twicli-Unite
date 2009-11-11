@@ -33,5 +33,6 @@ them into the "public_html" directory.
 - 2009-10-29
   - delete unite_favotter.js and included original favotter.js
 - 2009-11-09
-  - added high_resolution_icon.png and 48x48, 64x64, 128x128, 256x256
-    (Million thanks to Daniel James Hendrycks)
+  - added high_resolution_icon and high_resolution_icon_with_transparency.png
+    as well as 48x48, 64x64, 128x128, and 256x256 icons.
+    (Million thanks to Daniel James Hendrycks and hynemoss)
