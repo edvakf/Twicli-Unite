@@ -34,6 +34,7 @@ window.onload = function () {
     webserver.addEventListener('setcache', set_cache, false);
     webserver.addEventListener('resolveurl', resolve_url, false);
     webserver.addEventListener('shorten', shorten, false);
+    webserver.addEventListener('storage', storage, false);
   }
 }
 
@@ -120,5 +121,29 @@ function shorten(e){
   var response = e.connection.response;
   response.setResponseHeader( 'Content-Type', 'text/plain' );
   response.write(result || '');
+  response.close();
+}
+
+var KVS = {};
+function storage(e){
+  var request = e.connection.request;
+  var response = e.connection.response;
+  var key = request.getItem('key');
+  if (!key.length) return not_found(e);
+  key = key[0];
+  if (request.method === "POST" && request.body) {
+    KVS[key] = request.body;
+    response.close();
+  } else {
+    if (!KVS[key]) return not_found(e);
+    response.write(KVS[key]);
+    response.close();
+  }
+}
+
+function not_found(e){
+  var response = e.connection.response;
+  response.setStatusCode('404', 'Not found');
+  response.write('Not found');
   response.close();
 }

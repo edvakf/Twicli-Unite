@@ -33,15 +33,18 @@ throw new SyntaxError('JSON.parse');};}}());
 (function(){
  
   var initialized = false;
+  var unite_path = location.href.replace(/[^/]*$/,'');
   
   function get_cache(){
     if (initialized) return;
     initialized = true;
+    opera.postError('get_cache');
     
     var timeline = null;
     var xhr = new XMLHttpRequest();
-    xhr.open('GET','/twicli/getcache'+'?timestamp='+(+new Date),false);
+    xhr.open('GET', unite_path+'getcache'+'?timestamp='+(+new Date), false);
     xhr.onload = function(){
+      opera.postError('cache_loaded');
       timeline = JSON.parse(xhr.responseText);
     }
     xhr.send();
@@ -59,7 +62,7 @@ throw new SyntaxError('JSON.parse');};}}());
     if (!timer) {
       timer = setTimeout(function(){
         var xhr = new XMLHttpRequest();
-        xhr.open('POST','/twicli/setcache',true);
+        xhr.open('POST',unite_path+'setcache',true);
         xhr.send(JSON.stringify(queue));
         queue = [];
         timer = null;
@@ -67,9 +70,33 @@ throw new SyntaxError('JSON.parse');};}}());
     }
   }
 
+  function skip_auth() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', unite_path+'storage?key=accounts_verify_credentials', false);
+    xhr.onload = function(){
+      if (xhr.status == 200) {
+        var auth_orig = auth;
+        auth = function(){ auth = auth_orig }; // fake the original function
+        setTimeout( function(){
+          twAuth(JSON.parse(xhr.responseText));
+        }, 0);
+      } else {
+        var twAuth_orig = twAuth;
+        twAuth = function(a) {
+          twAuth_orig(a);
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', unite_path+'storage?key=accounts_verify_credentials', true);
+          xhr.send(JSON.stringify(a));
+        }
+      }
+    }
+    xhr.send(null);
+  }
+
   registerPlugin({
     update : get_cache,
     newMessageElement : set_cache,
+    init : skip_auth
   })
 })();
 
