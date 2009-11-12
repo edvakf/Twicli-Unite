@@ -82,6 +82,7 @@ throw new SyntaxError('JSON.parse');};}}());
         var twAuth_orig = twAuth;
         twAuth = function(a) {
           twAuth_orig(a);
+          if (!a.error) return;
           var xhr = new XMLHttpRequest();
           xhr.open('POST', unite_path+'storage?key=accounts_verify_credentials', true);
           xhr.send(JSON.stringify(a));
