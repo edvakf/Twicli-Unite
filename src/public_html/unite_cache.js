@@ -38,13 +38,11 @@ throw new SyntaxError('JSON.parse');};}}());
   function get_cache(){
     if (initialized) return;
     initialized = true;
-    opera.postError('get_cache');
     
     var timeline = null;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', unite_path+'getcache'+'?timestamp='+(+new Date), false);
     xhr.onload = function(){
-      opera.postError('cache_loaded');
       timeline = JSON.parse(xhr.responseText);
     }
     xhr.send();
