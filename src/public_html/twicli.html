@@ -4,13 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="description" content="twicli is a web browser-based Twitter client. No need for installation. Automatically fetches timeline, and show with cool animation.">
 <meta name="copyright" content="&copy; 2008-2009 NeoCat">
-<meta name="description" content="JavaScript-based Twitter Client">
 <meta name="viewport" content="width=280,user-scalable=no">
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="shortcut icon" href="favicon.ico">
 <title>twicli</title>
 <style type="text/css"><!--
-body { background-image: url(block_bg.png); background-attachment: fixed; margin: 1px; min-height: 500px; }
+body { background-image: url(block_bg.png); background-attachment: fixed; margin: 1px; min-height: 500px; color: black; }
 img { border: 0 none; }
 hr { margin: 0; padding: 0; }
 hr.spacer { margin: 6px 0 }
@@ -18,12 +17,12 @@ iframe { display: none; }
 form { margin-bottom: 0; }
 
 #control { position: fixed; top: 0; left: 0; width: 100%; height: 53px; border-bottom: 1px solid black; background-color: white; z-index: 3; background-color: #eee; }
-#loading { opacity: 0.5; filter: alpha(opacity=50); position: absolute; top: 6px; width: 100%; height: 20px; z-index: 4; text-align: center; }
+#loading { opacity: 0.5; filter: alpha(opacity=50); position: absolute; top: 6px; width: 94%; height: 20px; z-index: 4; text-align: center; }
 #fst { position: absolute; left: 1px; top: 1px; width: 94%; height: 30px; font-size: small; overflow: hidden; }
 #go { text-decoration: none; position: absolute; left: 95%; top: 1px; }
 #rst { text-decoration: none; position: absolute; left: 95%; top: 16px; }
 #menu { position: absolute; left: 0px; top: 33px; height: 20px; }
-#menu a { display: inline-block; font-size: 13px; height: 18px; line-height: 18px; border: 1px solid black; border-bottom: 0 none; background-color: #aaa; color: #242; padding: 0 4px; margin: 0; text-decoration: none; font-family: sans-serif;  -moz-border-radius: 5px 5px 0 0; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; margin-right: 2px; }
+#menu a { display: inline-block; font-size: 12px; height: 18px; line-height: 18px; border: 1px solid black; border-bottom: 0 none; background-color: #aaa; color: #242; padding: 0 4px; margin: 0; text-decoration: none; font-family: sans-serif;  -moz-border-radius: 5px 5px 0 0; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; margin-right: 2px; }
 #menu a.sel { height: 20px; background-color: #ffe; color: #002; border-bottom-color: #fff; }
 #menu a.new { background-color: #fcc; }
 
@@ -36,7 +35,7 @@ form { margin-bottom: 0; }
 .uicon2 { max-width: 96px; max-height: 96px; }
 .fav { float: right; }
 .dir { color: #679; }
-.status { text-decoration: none; color: black; }
+.status { text-decoration: none; }
 .status a.link { font-size: x-small; background-color: #eee; color: #022; border: solid 1px #cec; text-decoration: none; }
 .status a.link:hover { background-color: #ff9; }
 .utils { white-space: nowrap; text-align: right }
@@ -44,15 +43,16 @@ form { margin-bottom: 0; }
 .fromme { background-color: #cfd; }
 .tome { background-color: #ccf; }
 .emp { background-color: #fcc; }
-.button { color: #f29; border: 1px solid #ddd; text-decoration: none; font-size: medium; -webkit-text-size-adjust:140%; }
-.green { color: #195; }
+.retweeted { color: #555; }
+.non-follower { color: #008; }
+.button { text-decoration: none; -webkit-text-size-adjust:140%; }
 .popup { padding: 0 4px; color: #888; }
 .lock { position: relative; top: 2px; left: 0; }
 .close { color: red; }
 #get_old, #next { text-align: center; background-color: #999; color: #fec; cursor: pointer; }
 #rep { display: none; background-color: #fee; position: absolute; width: 90%; left: 4%; top: 200px; border: 4px solid #666; z-index: 2; padding: 2px; font-size: small; }
 #reps { margin-top: 5px; }
-#popup { display: none; background-color: #eee; position: absolute; left: 0; top: 200px; border: 2px solid #666; z-index: 6; width: 180px; font-size: small; }
+#popup { display: none; background-color: #eee; position: absolute; left: 0; top: 200px; border: 2px solid #666; z-index: 6; width: 180px; font-size: x-small; }
 #popup a { display: block; background-color: #fff; color: black; text-decoration: none; padding: 3px; border-bottom: 1px solid #888; }
 #popup a:hover { background-color: #33f; color: #fff; text-decoration: none; }
 #popup a.row2 { background-color: #eee; }
@@ -261,9 +261,9 @@ document.write('<style>' + user_style + '</style>');
 <form name="frm" action="http://api.twitter.com/1/statuses/update.xml" method="POST" target="tx">
 <textarea id="fst" name="status" onkeyup="updateCount(); if (!key_press_detected && this.value.indexOf('\n') >= 0) return press(1)" onkeypress="updateCount(); return press(event)" onfocus="updateCount();" onblur="$('counter-div').style.display='none';"></textarea>
 <input type="hidden" name="source" value="twicli">
-<a id="go" href="javascript:void press(1)"><img src="go.png"></a>
-<a id="rst" href="javascript:void resetFrm()"><img src="clr.png"></a>
-<div id="loading"><img src="loading.gif"></div></form>
+<a id="go" href="javascript:void press(1)"><img alt="→" src="go.png"></a>
+<a id="rst" href="javascript:void resetFrm()"><img alt="×" src="clr.png"></a>
+<div id="loading"><img alt="loading" src="loading.gif"></div></form>
 <!--メニュー-->
 <div id="menu"><nobr id='menu2'><a id="TL" class="sel" href="javascript:void switchTL()">TL</a><a id="reply" href="javascript:void switchReply()">Re</a><a id="user" href="javascript:void switchUser()">user</a><a id="direct" href="javascript:void switchDirect()">D</a><a id="misc" href="javascript:void switchMisc()">+</a></nobr></div>
 </div>
@@ -272,14 +272,15 @@ document.write('<style>' + user_style + '</style>');
 <!--TL以外のタブ-->
 <div id="tw2"><div id="tw2h"></div><div id="tw2c"></div></div>
 <!--返信-->
-<div id="rep"><a href="javascript:closeRep()" class="close">[x]</a>
-	<a href="javascript:pickup2()" class="close">[⇔]</a><div id="reps"></div></div>
+<div id="rep"><a href="javascript:closeRep()" class="close"><img alt="×" src="clr.png"></a>
+	<a href="javascript:pickup2()" class="close"><img alt="⇔" src="both.png"></a><div id="reps"></div></div>
 <!--ポップアップメニュー-->
 <div id="popup" onClick="popup_hide()">
 <a id="popup_link_user" href="" target="twitter">Twitter / User</a>
 <a id="popup_link_status" href="" target="twitter">Twitter / Status</a>
 <a id="popup_status_delete" href="#" onClick="return deleteStatus()">Delete Status</a>
-<a id="popup_status_retweet" href="#" onClick="return retweetStatus()" target="twitter">ReTweet</a>
+<a id="popup_status_retweet" href="#" onClick="return retweetStatus()" target="twitter">Retweet</a>
+<a id="popup_status_quote" href="#" onClick="return quoteStatus()" target="twitter">Quote with RT:</a>
 </div>
 <!--ポップアップメニュー非表示用-->
 <div id="popup_hide" onClick="popup_hide();"></div>
@@ -311,7 +312,7 @@ var decr_enter = parseInt(readCookie('decr_enter') || "0");			// Shift/Ctrl+Ente
 // TL管理用
 var nr_tw = 0;					// 現在のTLの発言数
 var cur_page = 1;				// 現在表示中のページ
-var nr_page = 0;				// 次に取得するページ
+var nr_page = max_count == 200 ? 1 : 0;	// 次に取得するページ
 var get_next_func = getOldTL;	// 次ページ取得関数
 var since_id = null;			// TLの最終since_id
 var since_id_reply = null;		// Replyの最終since_id
@@ -342,9 +343,11 @@ var popup_top = 0;				// ポップアップメニューの表示位置
 var selected_menu = $("TL");	// 選択中のタブ
 var update_timer = null;
 var update_reply_counter = 0;
+var update_direct_counter = 0;
 var key_press_detected = false;
 var last_post = null;
 var last_in_reply_to_user = null;
+var last_direct_id = null;
 
 //ログイン・自ユーザ名受信
 function twAuth(a) {
@@ -370,8 +373,10 @@ function press(e) {
 		update();
 		return false;
 	}
-	if (document.frm.status.value.length > 140)
+	if (document.frm.status.value.length > 140) {
+		alert("This tweet is too long.");
 		return false;
+	}
 	if (document.frm.status.value == "r" && last_post) {
 		document.frm.status.value = last_post;
 		in_reply_to_user = last_in_reply_to_user;
@@ -476,6 +481,8 @@ function popup_menu(user, id, ele) {
 	$('popup_link_user').href = twitterURL + user;
 	$('popup_link_status').href = twitterURL + user + '/statuses/' + id;
 	$('popup_status_delete').style.display = (user == myname ? "block" : "none");
+	$('popup_status_retweet').style.display = (selected_menu.id != "direct" ? "block" : "none");
+	$('popup_status_quote').style.display = (selected_menu.id != "direct" ? "block" : "none");
 	$('popup').style.display = "block";
 	var pos = cumulativeOffset(ele);
 	$('popup').style.left = pos[0] <  $('popup').offsetWidth - ele.offsetWidth ? 0 : pos[0] - $('popup').offsetWidth + ele.offsetWidth;
@@ -492,7 +499,20 @@ function popup_hide() {
 // 発言のReTweet
 function retweetStatus() {
 	if (!popup_id) return false;
-	if ($('lock-' + popup_id) && !confirm("This post is protected; Are you sure to RT?")) return false;
+	if ($('lock-' + popup_id)) {
+		alert("This tweet is protected.");
+		return false;
+	}
+	if (!confirm("Retweet to your followers?")) return false;
+	$("loading").style.display = "block";
+	enqueuePost(twitterAPI + 'statuses/retweet/' + popup_id + '.xml?source=twicli',
+		function(){ $("loading").style.display = "none"; });
+	return false;
+}
+// 発言をRT付きで引用
+function quoteStatus() {
+	if (!popup_id) return false;
+	if ($('lock-' + popup_id) && !confirm("This tweet is protected; Are you sure to retweet?")) return false;
 	$('fst').value = "RT @"+popup_user+": " + charRef(popup_ele.tw.text);
 	$('fst').focus(); $('fst').select();
 	return false;
@@ -500,7 +520,7 @@ function retweetStatus() {
 // 発言の削除
 function deleteStatus() {
 	if (!popup_id) return false;
-	if (!confirm("Are you sure to delete this message (@"+popup_user+" / "+popup_id+")?")) return false;
+	if (!confirm("Are you sure to delete this tweet (@"+popup_user+" / "+popup_id+")?")) return false;
 	$("loading").style.display = "block";
 	if ($("text" + popup_id)) $("text" + popup_id).style.textDecoration = "line-through";
 	enqueuePost(twitterAPI + 'statuses/destroy/' + popup_id + '.xml',
@@ -511,7 +531,7 @@ function deleteStatus() {
 update_inited = function() {
 	if (!myname) return auth();
 	callPlugins("update");
-	update_ele = loadXDomainScript(twitterAPI + 'statuses/friends_timeline.json?seq=' + (seq++) +
+	update_ele = loadXDomainScript(twitterAPI + 'statuses/home_timeline.json?seq=' + (seq++) +
 						'&count=' + (since_id ? 200 : max_count) +
 						'&callback=twShow' + (!no_since_id && since_id ? '&since_id='+since_id : ''), update_ele);
 	resetUpdateTimer();
@@ -540,7 +560,7 @@ function insertPDF(str) {
 }
 function makeHTML(tw, no_name, pid) {
 	var un = tw.user.screen_name;
-	return /*fav*/ '<img class="fav" src="http://assets3.twitter.com/images/icon_star_'+(tw.favorited?'full':'empty')+'.gif" ' +
+	return /*fav*/ '<img alt="☆" class="fav" src="http://assets3.twitter.com/images/icon_star_'+(tw.favorited?'full':'empty')+'.gif" ' +
 			'onClick="fav(this,' + tw.id + ')"' + (pid ? ' id="fav-'+pid+'-'+tw.id+'"' : '') + '>' +
 		 (!no_name ?
 			//ユーザアイコン
@@ -550,7 +570,7 @@ function makeHTML(tw, no_name, pid) {
 			'<a href="' + twitterURL + un + '" onClick="switchUser(\'' + un + '\');return false"><span class="uid">' + un + '</span>' +
 			 /*プロフィールの名前*/ (tw.user.name!=un ? '<span class="uname">('+insertPDF(tw.user.name)+')</span>' : '') + '</a>'
 		: '') +
-		 /* protected? */ (tw.user.protected ? '<img id="lock-' + tw.id + '" class="lock" src="http://assets0.twitter.com/images/icon_lock.gif">' : '') +
+		 /* protected? */ (tw.user.protected ? '<img alt="lock" id="lock-' + tw.id + '" class="lock" src="http://assets0.twitter.com/images/icon_lock.gif">' : '') +
 		/*ダイレクトメッセージの方向*/ (tw.d_dir == 1 ? '<span class="dir">→</span> ' : tw.d_dir == 2 ? '<span class="dir">←</span> ' : '') +
 		//本文 (https〜をリンクに置換 + @を本家リンク+JavaScriptに置換)
 		" <span id=\"text" + tw.id + "\" class=\"status\">" +
@@ -564,9 +584,9 @@ function makeHTML(tw, no_name, pid) {
 		//クライアント
 		(tw.source ? '<span class="separator"> / </span><span class="source">' + tw.source.replace(/<a /,'<a target="twitter"') + '</span>' : '') + '</span>' +
 		//返信先を設定
-		' <a class="button green" href="javascript:replyTo(\'' + un + "'," + tw.id + ')">↩</a>' +
+		' <a class="button" href="javascript:replyTo(\'' + un + "'," + tw.id + ')"><img src="reply.png" alt="↩" width="14" height="14"></a>' +
 		//返信元へのリンク
-		(tw.in_reply_to_status_id ? ' <a class="button" href="#" onClick="dispReply(\'' + un + '\',' + tw.in_reply_to_status_id + ',this); return false;">☞</a>' : '') +
+		(tw.in_reply_to_status_id ? ' <a class="button" href="#" onClick="dispReply(\'' + un + '\',' + tw.in_reply_to_status_id + ',this); return false;"><img src="inrep.png" alt="☞" width="14" height="14"></a>' : '') +
 		//popupメニュー表示
 		'&nbsp;&nbsp;&nbsp;<a class="button popup" href="#" onClick="popup_menu(\'' + un + "'," + tw.id + ', this); return false;"><small><small>▼</small></small></a>' +
 		'</span><div class="dummy"></div>';
@@ -575,7 +595,7 @@ function makeHTML(tw, no_name, pid) {
 function makeUserInfoHTML(user) {
 	return '<table><tr><td><a target="twitter" href="' + twitterURL + 'account/profile_image/'+
 			user.screen_name+'"><img class="uicon2" src="' + user.profile_image_url + '"></a></td><td id="profile">' +
-			(user.protected ? '<img src="http://assets0.twitter.com/images/icon_lock.gif">' : '') +
+			(user.protected ? '<img alt="lock" src="http://assets0.twitter.com/images/icon_lock.gif">' : '') +
 			'<b>' + user.screen_name + '</b> / <b>' + user.name + '</b><br>' +
 			(user.location ? '<b>Location</b>: ' + user.location + '<br>' : '') +
 			(user.url ? '<b>URL</b>: <a target="twitter" href="' + user.url + '">' + user.url + '</a><br>' : '') +
@@ -667,6 +687,12 @@ function twDirectShow() {
 	twShow2(direct);
 	direct1 = direct2 = false;
 }
+function twDirectCheck(tw) {
+	if (!tw || tw.length == 0) return false;
+	if (last_direct_id && last_direct_id < tw[0].id)
+			$("direct").className += " new";
+	last_direct_id = tw[0].id;
+}
 // API制限情報の受信
 function twLimit(lim) {
 	$("loading").style.display = "none";
@@ -721,14 +747,26 @@ function twShow(tw) {
 		$("tw").appendChild(nextButton('get_old', 1));
 		nr_page = 1;
 	}
+
+	// double check since_id
+	if (!no_since_id && since_id)
+		for (var i = 0; i < tw.length; i++)
+			if (tw[i].id <= since_id)
+				tw.splice(i--, 1);
+
 	twShowToNode(tw, $("tw"), false, false, true, true, true);
 	if (tl_oldest_id && update_reply_counter-- <= 0) {
 		update_ele2 = loadXDomainScript(twitterAPI + 'statuses/mentions.json?seq=' + (seq++) +
-						'&count=' + (since_id_reply ? 200 : max_count) +
+						'&count=' + (since_id_reply ? 200 : max_count_u) +
 						(since_id_reply ? '&since_id='+since_id_reply : '') +
 						'&callback=twReplies',
 					update_ele2);
 		update_reply_counter = 4;
+	}
+	if (tl_oldest_id && update_direct_counter-- <= 0) {
+		direct_ele1 = loadXDomainScript(twitterAPI + 'direct_messages.json?seq=' + (seq++) +
+										'&callback=twDirectCheck', direct_ele1);
+		update_direct_counter = 20;
 	}
 	callPlugins("noticeUpdate", tw);
 }
@@ -795,6 +833,8 @@ function twShowToNode(tw, twNode, no_name, after, animation, check_since, ignore
 			}
 			if (tw[i].d_dir == 2 || tw[i].user.screen_name == myname)
 				s.className = "fromme";
+			if (tw[i].retweeted_status)
+				s.className += " retweeted";
 			callPlugins("newMessageElement", s, tw[i], twNode.id);
 			pNode.insertBefore(s, pNode.childNodes[0]);
 			nr_show++;
@@ -866,8 +906,8 @@ function getNext(ele) {
 	get_next_func();
 }
 function getOldTL() {
-	update_ele2 = loadXDomainScript(twitterAPI + 'statuses/friends_timeline.json?seq=' + (seq++) +
-				'&count=' + max_count + '&page=' + (nr_page++) +
+	update_ele2 = loadXDomainScript(twitterAPI + 'statuses/home_timeline.json?seq=' + (seq++) +
+				'&count=200&page=' + (nr_page++) +
 				'&callback=twOld', update_ele2);
 }
 function getNextFuncCommon() {

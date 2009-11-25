@@ -68,6 +68,16 @@ throw new SyntaxError('JSON.parse');};}}());
     }
   }
 
+  function fav_cache(id, fav_state){ // fav_state = 0 -> not favorite, 1 -> favorite, -1 -> pending
+    if (fav_state !== -1) {
+      var tw = $('tw-'+id).tw;
+      tw.favorited = !!fav_state;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST',unite_path+'setcache',true);
+      xhr.send(JSON.stringify([tw]));
+    }
+  }
+
   function skip_auth() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', unite_path+'storage?key=accounts_verify_credentials', false);
@@ -95,7 +105,8 @@ throw new SyntaxError('JSON.parse');};}}());
   registerPlugin({
     update : get_cache,
     newMessageElement : set_cache,
-    init : skip_auth
+    init : skip_auth,
+    fav : fav_cache
   })
 })();
 
