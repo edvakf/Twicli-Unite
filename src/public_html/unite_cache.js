@@ -34,10 +34,12 @@ throw new SyntaxError('JSON.parse');};}}());
  
   var initialized = false;
   var unite_path = location.href.replace(/[^/]*$/,'');
+  var first_real_update = false;
   
   function get_cache(){
     if (initialized) return;
     initialized = true;
+    first_real_update = true;
     
     var timeline = null;
     var xhr = new XMLHttpRequest();
@@ -70,7 +72,7 @@ throw new SyntaxError('JSON.parse');};}}());
 
   function fav_cache(id, fav_state){ // fav_state = 0 -> not favorite, 1 -> favorite, -1 -> pending
     if (fav_state !== -1) {
-      var tw = $('tw-'+id).tw;
+      var tw = ($((selected_menu.id == "TL" ? "tw" : "tw2c") + "-" + id)).tw;
       tw.favorited = !!fav_state;
       var xhr = new XMLHttpRequest();
       xhr.open('POST',unite_path+'setcache',true);
@@ -102,11 +104,22 @@ throw new SyntaxError('JSON.parse');};}}());
     xhr.send(null);
   }
 
+  function clear_very_old_cache(tw) {
+    if (!first_real_update) return;
+    first_real_update = false;
+    if (tw.length >= 199) {
+      var old = $("get_old").previousSibling;
+      //if(confirm('Cached timeline is very old. Do you want to remove it?')) old.parentNode.removeChild(old);
+      old.parentNode.removeChild(old);
+    }
+  }
+
   registerPlugin({
     update : get_cache,
     newMessageElement : set_cache,
     init : skip_auth,
-    fav : fav_cache
+    fav : fav_cache,
+    noticeUpdate : clear_very_old_cache
   })
 })();
 

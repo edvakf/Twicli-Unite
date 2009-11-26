@@ -1,54 +1,74 @@
 /* replace short URLs with original URLs */
 (function(){
   var re = /^http:\/\/(?:tinyurl\.com|bit\.ly|is\.gd|u\.nu|icio\.us|tr\.im|cli\.gs|twurl\.nl|url\.ie|j\.mp|ow\.ly|ff\.im|digg\.com)\//;
+  var api = 'http://atsushaa.appspot.com/untiny/get'
+  var queue = [];
+  var wait = 10000;
+  var remove = function(e){if (e && e.parentNode) e.parentNode.removeChild(e)};
 
-  function resolveUrl(url){
-    var requestUrl = './resolveurl?url=' + encodeURIComponent(url);
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET',requestUrl, true);
-    xhr.onload = function(){
-      replaceUrl(url, xhr.responseText);
-    }
-    xhr.send(url);
-  }
+  window.replaceUrl = function(hash) {
+    for (var shortUrl in hash) if (hash.hasOwnProperty(shortUrl)) {
+      var longUrl = hash[shortUrl];
+      // make human friendly URL
+      try{
+        var decoded = decodeURI(longUrl);
+      }catch(e){
+        var decoded = longUrl;
+      }
+      if (decoded.length > 200) {
+        var truncated = decoded.slice(0,200)+'...';
+      } else {
+        var truncated = decoded;
+      }
 
-  function replaceUrl(shortUrl, longUrl){
-    // if longUrl doesn't exist or longUrl is still a short URL
-    if (!longUrl || re.test(longUrl)) return;
-    Array.prototype.forEach.call(
-      document.querySelectorAll('a[href="'+shortUrl+'"]'),
-      function(link){
+      // search for a link with the shortUrl
+      var n = queue.length, task;
+      while (task = queue[--n]) if (task.link.href === shortUrl) {
+        var link = task.link;
+        // replace link href and text with longUrl
         link.href = longUrl;
-        if (link.textContent == shortUrl) {
-          try{
-            var decoded = decodeURI(longUrl);
-          }catch(e){
-            var decoded = longUrl;
-          }
-          if (decoded.length > 200) {
-            link.textContent = decoded.slice(0,200)+'...';
-          } else {
-            link.textContent = decoded;
-          }
+        if (link.textContent === shortUrl) {
+          link.textContent = truncated;
+        } else if (link.innerText === shortUrl) {
+          link.innerText = truncated;
         }
+        // cleanup
+        clearTimeout(task.timer);
+        remove(task.script);
+        queue.splice(n,1);
       }
-    );
+    }
   }
 
-  function findShortUrls(elem){
-    Array.prototype.forEach.call(
-      elem.querySelectorAll('.status > a'),
-      function(a){
-        if (re.test(a.href)) {
-          setTimeout(function(){resolveUrl(a.href)},0);
-        }
+  function setResolver(link) {
+    // JSONP with callback window.replaceUrl
+    var src = api + '?callback=replaceUrl&url=' + encodeURIComponent(link.href);
+    var script = loadXDomainScript(src);
+
+    // cleanup if JSONP doesn't load in time
+    var timer = setTimeout(function(){
+      var n = queue.length;
+      while (n--) if (task === queue[n]) {
+        queue.splice(n,1);
+        remove(task.script);
       }
-    );
+    }, wait);
+    var task = {link:link, script:script, timer:timer};
+    queue.push(task);
+  }
+
+  function findShortUrls(elem) {
+    var links = elem.getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) (function(a){
+      if (a.parentNode.className.indexOf('status') >= 0 && re.test(a.href)) {
+        setResolver(a);
+      }
+    })(links[i]);
   }
 
   registerPlugin({
     newMessageElement : findShortUrls
   });
 
-})();
+})()
 
