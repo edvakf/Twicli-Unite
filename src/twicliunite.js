@@ -1,29 +1,43 @@
+
+var debug = false;
+function log(e) {
+  if (debug) opera.postError(e);
+}
+
 /* Tweets class (timeline cache) */
 function Tweets(){
-  this.cache = [];
+  this.cache = {};
+  this.ids = [];
+  this.num = 100;
 };
 Tweets.prototype = {
-  num : 50,
   fetch : function(n){
     if (!n || n < 0) n = this.num;
-    return this.cache.slice(-n).reverse();
+    var cache = this.cache;
+    log(this.ids.map(function(id){return cache[id].text}).join('\n'))
+    return this.ids.map(function(id){return cache[id]}).reverse();
   },
   store : function(tws) {
+    //log('storing ' +tws.length+' tweets');
+    log(tws.map(function(tw){return tw.text}).join('\n'));
+    var t = new Date;
     var cache = this.cache;
-    if (cache.length) tws.forEach(function(tw) {
-      var n = cache.length;
-      while (--n) {
-        if (cache[n].id == tw.id) {
-          cache.splice(n, 1);
-          break;
-        }
-      }
+    var ids = this.ids;
+
+    tws.forEach(function(tw) {
+      var id = tw.id;
+      if (!cache[id]) ids.push(id);
+      cache[id] = tw;
     });
-    cache = cache.concat(tws).sort(function(a,b){
-      var aid = a['id'], bid = b['id'];
-      return (aid > bid) - (aid < bid);
-    });
-    this.cache = cache.slice(-this.num);
+    ids.sort();
+
+    while (ids.length > this.num) {
+      cache[ids[0]] = null;
+      ids.splice(0,1);
+    }
+    this.ids = ids;
+    this.cache = cache;
+    log(['time taken : '+(new Date-t), 'cache length : '+ids.length].join('\n'));
   }
 }
 var tweets = new Tweets();
@@ -41,6 +55,7 @@ window.onload = function () {
 
 function wrap_handler(handler) {
   return function(e) {
+    log(e.connection.request.uri);
     if (e.connection.isOwner) {
       try {
         handler(e);
@@ -51,36 +66,40 @@ function wrap_handler(handler) {
     } else {
       forbidden(e);
     }
+    log('end : '+e.connection.request.uri);
   }
 }
 
 function server_error(e) {
   var res = e.connection.response;
   res.setStatusCode('500', 'Server Error');
-  response.write('Server Error');
+  res.write('Server Error');
   res.close();
 }
 
 function not_found(e){
-  var response = e.connection.response;
-  response.setStatusCode('404', 'Not found');
-  response.write('Not found');
-  response.close();
+  var res = e.connection.response;
+  res.setStatusCode('404', 'Not found');
+  res.write('Not found');
+  res.close();
 }
 
 function forbidden(e){
-  var response = e.connection.response;
-  response.setStatusCode('403', 'Forbidden');
-  response.write('Owner only');
-  response.close();
+  var res = e.connection.response;
+  log(e.connection.isLocal);
+  log(res);
+  log(res.setStatusCode);
+  res.setStatusCode('403', 'Forbidden');
+  res.write('Owner only');
+  res.close();
 }
 
 function get_cache(e){
-  var response = e.connection.response;
-  response.setStatusCode(200);
-  response.setResponseHeader( 'Content-Type', 'application/json' );
-  response.write(JSON.stringify(tweets.fetch()));
-  response.close();
+  var res = e.connection.response;
+  res.setStatusCode(200);
+  res.setResponseHeader( 'Content-Type', 'application/json' );
+  res.write(JSON.stringify(tweets.fetch()));
+  res.close();
 }
 
 function set_cache(e){

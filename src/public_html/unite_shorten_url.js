@@ -8,7 +8,6 @@
     if (!requesting && /((https?:\/\/[^\s]+?)(;;;|；；；))/.test(fst.value)) {
       var command = RegExp.$1;
       var originalUrl = RegExp.$2;
-      opera.postError(command);
       if (cache[originalUrl]) {
         setTimeout(function(){
           fst.value = fst.value.replace(command, cache[originalUrl]);
