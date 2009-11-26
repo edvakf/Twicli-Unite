@@ -36,3 +36,5 @@ them into the "public_html" directory.
   - added high_resolution_icon and high_resolution_icon_with_transparency.png
     as well as 48x48, 64x64, 128x128, and 256x256 icons.
     (Million thanks to Daniel James Hendrycks and hynemoss)
+- 2009-11-24
+  - only allow local access
